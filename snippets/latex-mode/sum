@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: sum
+# condition: (and (texmathp) 'auto)
+# key: sm
+# group: math
+# --
+\sum_{$1}^{$2}$0

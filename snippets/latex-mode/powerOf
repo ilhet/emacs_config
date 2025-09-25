@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: to the power
+# key: pw
+# condition: (and (texmathp) 'auto)
+# group: math
+# --
+^{$0}
