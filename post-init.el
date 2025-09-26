@@ -1,13 +1,16 @@
 ;; (use-package org :load-path "~/.emacs.d/elpa/org-mode/lisp")
 ;; disable startup message
-(setq inhibit-startup-message t)
+(add-to-list 'default-frame-alist
+             '(font . "Noto Sans Mono CJK HK-11"))
+(set-face-attribute 'default nil :font "Noto Sans Mono CJK HK-11")
 
-(scroll-bar-mode -1)    ;disable scroll bar
-(tool-bar-mode -1)      ;disable tool bar
-(tooltip-mode -1)       ;disable tooltip
-(menu-bar-mode 1)      ;disable menu bar
+(setq inhibit-startup-message t)
+;; (scroll-bar-mode -1)    ;disable scroll bar
+;; (tool-bar-mode -1)      ;disable tool bar
+;; (tooltip-mode -1)       ;disable tooltip
+;; (menu-bar-mode 1)      ;disable menu bar
 (which-key-mode 1)
-(load-theme 'modus-vivendi)     ;set theme
+(load-theme 'leuven)     ;set theme
 
 (transient-mark-mode 1)
 (delete-selection-mode 1)
@@ -146,25 +149,6 @@
 		    ))
 		  
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-export-default-language "de")
- '(package-selected-packages nil)
- '(package-vc-selected-packages)
-   ;; '((org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch
-	       ;; "dev")
-     ;; (LaTeX-auto-activating-snippets :vc-backend Git :url
-				     ;; "https://github.com/ilhet/LaTeX-auto-activating-snippets")))
- '(tab-always-indent 'complete))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"))
@@ -205,10 +189,13 @@
   (load-file (expand-file-name file user-init-dir)))
 
 (if (equal system-type 'windows-nt)
-    (load-user-file "windows.el"))
+    (load-user-file "windows.el")
+  (load-user-file "scalingpreviews.el")
+  )
+
 
 (load-user-file "laas.el")
-(load-user-file "scalingpreviews.el")
+
 
 ;; (package-vc-install '(org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch "dev"))
 
