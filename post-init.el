@@ -189,7 +189,8 @@
   (load-file (expand-file-name file user-init-dir)))
 
 (if (equal system-type 'windows-nt)
-    (load-user-file "windows.el")
+    (load-user-file "windows.el"))
+(if (equal system-type 'windows-nt)
   (load-user-file "scalingpreviews.el")
   )
 
