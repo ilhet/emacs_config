@@ -206,3 +206,5 @@
 (add-hook 'text-mode-hook 'auto-fill-mode)
 ;; (add-hook 'org-mode-hook 'org-fragtog-mode)
 (put 'downcase-region 'disabled nil)
+
+(add-hook 'dired-mode-hook 'auto-revert-mode)
