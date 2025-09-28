@@ -1,8 +1,8 @@
 ;; (use-package org :load-path "~/.emacs.d/elpa/org-mode/lisp")
 ;; disable startup message
 (add-to-list 'default-frame-alist
-             '(font . "Noto Sans Mono CJK HK-11"))
-(set-face-attribute 'default nil :font "Noto Sans Mono CJK HK-11")
+             '(font . "Noto Sans Mono CJK SC-11"))
+(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-11")
 
 (setq inhibit-startup-message t)
 ;; (scroll-bar-mode -1)    ;disable scroll bar
@@ -33,6 +33,13 @@
 
 ;; list of used packages
 (use-package auctex)
+(use-package xenops
+  :hook (LaTeX-mode . xenops-mode)
+  :hook (org-mode . xenops-mode)
+  :config
+  (setq xenops-math-image-scale-factor 0.45)
+  (setq xenops-reveal-on-entry t)
+  )
 ;; (use-package org-fragtog) 
 (use-package gdscript-mode)
 (with-eval-after-load 'eglot
@@ -148,7 +155,7 @@
 		    :cond #'texmathp ;expand while in math
 		    ))
 		  
-
+(use-package magit)
 
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"))
