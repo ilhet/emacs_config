@@ -33,13 +33,19 @@
 
 ;; list of used packages
 (use-package auctex)
-(use-package xenops
-  :hook (LaTeX-mode . xenops-mode)
-  :hook (org-mode . xenops-mode)
+(use-package texfrag
+  :hook ('org-mode . texfrag-mode)
   :config
-  (setq xenops-math-image-scale-factor 0.45)
-  (setq xenops-reveal-on-entry t)
+  (setq texfrag-scale 0.9)
   )
+
+;; (use-package xenops
+;;   :hook (LaTeX-mode . xenops-mode)
+;;   :hook (org-mode . xenops-mode)
+;;   :config
+;;   (setq xenops-math-image-scale-factor 0.45)
+;;   (setq xenops-reveal-on-entry t)
+;;   )
 ;; (use-package org-fragtog) 
 (use-package gdscript-mode)
 (with-eval-after-load 'eglot
@@ -56,7 +62,7 @@
 (use-package cdlatex
   :ensure t
   :hook (LaTeX-mode . turn-on-cdlatex)
-  :hook (org-mode . turn-on-cdlatex)
+  :hook (org-mode . turn-on-org-cdlatex)
   :bind (:map cdlatex-mode-map 
               ("<tab>" . cdlatex-tab)))
 (defun my/super-capf ()
@@ -88,8 +94,7 @@
 ;; Yasnippet settings
 (use-package yasnippet
   :ensure t
-  :hook ((LaTeX-mode . yas-minor-mode)
-         (post-self-insert . my/yas-try-expanding-auto-snippets))
+  :hook (post-self-insert . my/yas-try-expanding-auto-snippets)
   :config
   (use-package warnings
     :config
@@ -203,6 +208,8 @@
 
 
 (load-user-file "laas.el")
+(load-user-file "fragtog.el")
+(add-hook 'org-mode-hook 'org-fragtog-mode)
 
 
 ;; (package-vc-install '(org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch "dev"))
