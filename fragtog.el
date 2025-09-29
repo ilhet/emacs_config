@@ -265,7 +265,4 @@ If RENEW is non-nil, renew the fragment at point."
                              (org-fragtog--frag-end frag))
     (org-fragtog--set-point-after-disable-frag frag)))
 
-
-(provide 'my-fragtog)
-
 ;;; org-fragtog.el ends here

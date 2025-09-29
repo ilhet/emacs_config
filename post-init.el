@@ -202,10 +202,6 @@
 
 (if (equal system-type 'windows-nt)
     (load-user-file "windows.el"))
-(if (equal system-type 'windows-nt)
-  (load-user-file "scalingpreviews.el")
-  )
-
 
 (load-user-file "laas.el")
 (load-user-file "fragtog.el")
