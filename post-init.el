@@ -69,11 +69,11 @@
 ;;   )
 
 (use-package org-mem
-  :defer
   :config
+  (require 'org)
   (setq org-mem-do-sync-with-org-id t)
   (setq org-mem-watch-dirs
-        (list "~/org/roam")) ;; Configure me
+        (list "~/org")) ;; Configure me
   (org-mem-updater-mode))
 
 (use-package org-node
@@ -87,12 +87,14 @@
   (setq org-node-backlink-do-drawers t)
   (org-node-backlink-mode)
   (setq org-node-creation-fn #'org-capture)
+  (setq org-node-file-directory-ask "~/org/roam")
   )
 
 (use-package org
   :config
   (require 'org-datetree)  
   (setq org-log-done 'time)
+  (setq org-return-follows-link  t)
   (setq org-capture-templates
   '(
     ("t" "TODO"
@@ -106,7 +108,7 @@
      )
     ("j" "Journal Entry"
      entry (file+olp+datetree "~/org/journals/journal.org")
-     "* %^{PROMPT}\n%<%H:%M>\n%?"
+     "* %^{PROMPT}\n[%<%H:%M>]\n%?"
      :empty-lines 1)
     ("e" "Capture entry into ID node"
          entry (function org-node-capture-target) "* %?")
