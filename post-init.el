@@ -57,7 +57,81 @@
   (global-corfu-mode)
   )
 ;; (use-package dap-mode)
-(use-package org-roam)
+;; (use-package org-roam
+;;   :ensure t
+;;   :init
+;;   :bind (("C-c r l" . org-roam-buffer-toggle)
+;;          ("C-c r f" . org-roam-node-find)
+;;          ("C-c r i" . org-roam-node-insert))
+;;   :config
+;;   (setq org-roam-directory (file-truename "~/org/roam/"))
+;;   (org-roam-db-autosync-mode)
+;;   )
+
+(use-package org-mem
+  :defer
+  :config
+  (setq org-mem-do-sync-with-org-id t)
+  (setq org-mem-watch-dirs
+        (list "~/org/roam")) ;; Configure me
+  (org-mem-updater-mode))
+
+(use-package org-node
+  :init
+  ;; Optional key bindings
+  (keymap-global-set "C-c n" org-node-global-prefix-map)
+  (with-eval-after-load 'org
+    (keymap-set org-mode-map "C-c n" org-node-org-prefix-map))
+  :config
+  (org-node-cache-mode)
+  (setq org-node-backlink-do-drawers t)
+  (org-node-backlink-mode)
+  (setq org-node-creation-fn #'org-capture)
+  )
+
+(use-package org
+  :config
+  (require 'org-datetree)  
+  (setq org-log-done 'time)
+  (setq org-capture-templates
+  '(
+    ("t" "TODO"
+     entry (file+headline "~/org/todo.org" "Aufgaben")
+     "* TODO %?\n%U"
+     :empty-lines 1)
+    ("s" "Sleep Tracker"
+     entry (file+olp+datetree "~/org/journals/journal.org")
+     "* Schlaf\nBettzeit: %?\nAufstehzeit: \nQualität: "
+     :empty-lines 1
+     )
+    ("j" "Journal Entry"
+     entry (file+olp+datetree "~/org/journals/journal.org")
+     "* %^{PROMPT}\n%<%H:%M>\n%?"
+     :empty-lines 1)
+    ("e" "Capture entry into ID node"
+         entry (function org-node-capture-target) "* %?")
+
+    ("p" "Capture plain text into ID node"
+     plain (function org-node-capture-target) nil
+     :empty-lines-after 1)
+
+    ("n" "Jump to ID node"
+     plain (function org-node-capture-target) nil
+     :prepend t
+     :immediate-finish t
+     :jump-to-captured t)
+
+    ;; Sometimes handy after `org-node-insert-link', to
+    ;; make a stub you plan to fill in later, without
+    ;; leaving the current buffer for now
+    ("q" "Make quick stub ID node"
+     plain (function org-node-capture-target) nil
+     :immediate-finish t)
+    ))
+  )
+
+(use-package anki-editor)
+
 ;; CDLatex settings
 (use-package cdlatex
   :ensure t
@@ -168,17 +242,17 @@
 
 ;;auctex customization
 (setq org-latex-create-formula-image-program 'dvisvgm)
-(plist-put org-format-latex-options :foreground nil)
-(plist-put org-format-latex-options :background nil)
+
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 
 ;;org-roam customization
-(setq org-roam-directory (file-truename "~/org"))
-(org-roam-db-autosync-mode)
+
 
 ;;org-mode customization
-(setq org-agenda-files '("~/org"))
+(setq org-agenda-files '("~/org/todo.org"
+                         "~/org/inbox.org"
+                         "~/org/journals/journal.org"))
 
 ;;custom keybinds
 (global-set-key (kbd "C-c l") #'org-store-link)
@@ -194,6 +268,8 @@
          user-init-directory)
         (t "~/.emacs.d/")))
 
+;; (plist-put org-format-latex-options :foreground nil)
+;; (plist-put org-format-latex-options :background nil)
 
 (defun load-user-file (file)
   (interactive "f")
