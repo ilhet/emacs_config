@@ -1,8 +1,20 @@
 ;; (use-package org :load-path "~/.emacs.d/elpa/org-mode/lisp")
 ;; disable startup message
-(add-to-list 'default-frame-alist
-             '(font . "Noto Sans Mono CJK SC-11"))
-(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-11")
+;; (add-to-list 'default-frame-alist
+;;              '(font . "Noto Sans Mono CJK SC-11"))
+(set-face-attribute 'default nil
+                    :family "Noto Sans Mono"
+                    :height 110)
+(set-face-attribute 'variable-pitch nil
+                    :family "Noto Sans SC"
+                    :height 110)
+
+(dolist (charset '(han kana cjk-misc bopomofo))
+  (set-fontset-font t charset
+                    (font-spec
+                     :family "Noto Sans Mono CJK SC"
+                     :height 110))
+  )
 
 (setq inhibit-startup-message t)
 ;; (scroll-bar-mode -1)    ;disable scroll bar
@@ -90,9 +102,17 @@
   (setq org-node-file-directory-ask "~/org/roam")
   )
 
+;; (use-package org-modern
+;;   :hook (org-mode-hook . org-modern-mode)
+;;   :hook (org-agenda-finalize-hook . org-modern-agenda)
+;;   )
+
 (use-package org
   :config
-  (require 'org-datetree)  
+  ;; (set-face-attribute 'org-table nil :inherit 'default)
+  ;; (set-face-attribute 'org-default nil :inherit 'variable-pitch)
+  (require 'org-datetree)
+  (setq org-hide-emphasis-markers t)
   (setq org-log-done 'time)
   (setq org-return-follows-link  t)
   (setq org-capture-templates
@@ -111,11 +131,13 @@
      "* %^{PROMPT}\n[%<%H:%M>]\n%?"
      :empty-lines 1)
     ("e" "Capture entry into ID node"
-         entry (function org-node-capture-target) "* %?")
+     entry (function org-node-capture-target) "* %?"
+     :empty-lines 1
+     )
 
-    ("p" "Capture plain text into ID node"
-     plain (function org-node-capture-target) nil
-     :empty-lines-after 1)
+    ;; ("p" "Capture plain text into ID node"
+    ;;  plain (function org-node-capture-target) nil
+    ;;  :empty-lines 1)
 
     ("n" "Jump to ID node"
      plain (function org-node-capture-target) nil
